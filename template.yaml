@@ -52,6 +52,30 @@ Resources:
               Effect: Allow
               Action: secretsmanager:GetSecretValue
               Resource: arn:aws:secretsmanager:ap-northeast-2:983127326068:secret:cnvrt-mongoDB-kiW2Ib
+  SignUpFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      MemorySize: 1024
+      CodeUri: sign_up/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /sign_up
+            Method: post
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0fb89c38d80a2a5e9
+        SubnetIds:
+          - subnet-0cb78584fd366713d
+      Policies:
+        - Statement:
+            - Sid: AWSSecretsManagerGetSecretValuePolicy
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: arn:aws:secretsmanager:ap-northeast-2:983127326068:secret:cnvrt-mongoDB-kiW2Ib
 
 
 Outputs:
